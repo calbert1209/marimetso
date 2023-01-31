@@ -1,9 +1,14 @@
+using StackExchange.Redis;
 using VideoLibrary;
 
 namespace Marimetso;
 
 public class VideoTrack
 {
+    private static string TRACK_KEY_PREFIX = "video";
+    private static string TITLE_KEY = "title";
+    private static string LENGTH_KEY = "length";
+    
     private YouTubeVideo _video;
     private string _id;
 
@@ -69,5 +74,21 @@ public class VideoTrack
             .ProcessAsynchronously();
 
         WriteToLog($"downloaded {this._id}", "log");
+    }
+
+    public HashEntry[] PersistenceEntries
+    {
+        get 
+        {
+            return new HashEntry[] {
+                new HashEntry(TITLE_KEY, this.Title),
+                new HashEntry(LENGTH_KEY, this.LengthSeconds)
+            };
+        }
+    }
+
+    public string PersistenceKey
+    {
+        get { return $"{TRACK_KEY_PREFIX}:{this._id}"; }
     }
 }

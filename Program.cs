@@ -41,10 +41,7 @@ public static class Program
                     var track = new VideoTrack(video, nextVideoId.ToString());
                     ctx.Status($"downloading {track.VideoInfoString}");
 
-                    await db.HashSetAsync($"video:{nextVideoId}", new HashEntry[] {
-                        new HashEntry("title", track.Title),
-                        new HashEntry("length", track.LengthSeconds),
-                    });
+                    await db.HashSetAsync(track.PersistenceKey, track.PersistenceEntries);
 
                     await track.WriteToFile(WriteLogMessage);
                 }
