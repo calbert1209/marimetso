@@ -70,7 +70,7 @@ public class VideoTrack
         WriteToLog(this.ToSummaryString(), "log");
         await FFMpegCore.FFMpegArguments
             .FromUrlInput(new Uri(this._Uri))
-            .OutputToFile($"/Users/albert/Desktop/{this._id}.mp4")
+            .OutputToFile($"/Users/albert/Desktop/{this._id}.mp3")
             .ProcessAsynchronously();
 
         WriteToLog($"downloaded {this._id}", "log");
